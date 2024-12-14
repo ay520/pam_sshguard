@@ -1,10 +1,13 @@
 1、复制pam模块至系统路径下：/lib64/security/
     cp pam_example.so  /lib64/security/
-2、打开/etc/pam.d/sshd 进行编辑，添加2处模块配置
+2、打开/etc/pam.d/sshd 进行编辑，添加3处模块配置
    A.在auth模块最后一行添加
      auth    required    pam_security_audit.so
-   B.在account模块卒后一行添加
+   B.在account模块最后一行添加
      account  required    pam_security_audit.so
+   C.在session模块最后一行添加
+     session   optional    pam_security_audit.so
+
 
 3、全局配置文件: /etc/pam_config.conf
 
