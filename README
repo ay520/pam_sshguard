@@ -1,0 +1,23 @@
+1、复制pam模块至系统路径下：/lib64/security/
+    cp pam_example.so  /lib64/security/
+2、打开/etc/pam.d/sshd 进行编辑，添加2处模块配置
+   A.在auth模块最后一行添加
+     auth    required    pam_security_audit.so
+   B.在account模块卒后一行添加
+     account  required    pam_security_audit.so
+
+3、全局配置文件: /etc/pam_config.conf
+
+#ip white list,IP访问白名单配置路径
+IPWHITE_FILE = /etc/pam_allowed_ips.conf
+#weak password dic,弱口令字典配置路径
+WEAKPASS_DIC_FILE =/etc/pam_weakpass_dic.conf
+#define log path,默认日志保存路径
+LOG_FILE=/var/log/pam_security.log
+#define log pass status
+LOG_PASS=1 # 1:log password, 0:not log
+#define execve hook status
+EXEC_HOOK=1 # 1:hook, 0: not hook, 1 表示开启 hook注入 ，0表示关闭
+#define ld_preload path， ld_preload 的路径，可以自己开发，也可以用:https://github.com/ay520/bash_defender
+PRELOAD_PATH=/lib64/security/libexecve_filter.so
+
